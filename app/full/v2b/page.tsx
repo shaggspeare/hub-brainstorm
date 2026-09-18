@@ -3,20 +3,20 @@ import s from '../full.module.css';
 import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
+import { services as allServices, site, testimonials } from '@/lib/content';
 
 export const metadata = { title: '2b · Тепла глина — Hub Remontu' };
 
-const services = [
-  { name: 'Дизайн-проєкт', note: 'Планування, візуалізації, креслення, специфікації.' },
-  { name: 'Ремонт під ключ', note: 'Власні майстри, фіксована ціна, щотижневий звіт.' },
-  { name: 'Меблювання', note: 'Замовляємо, приймаємо, збираємо — під ваш проєкт.' },
-  { name: 'Комерція', note: 'Офіси, ресторани, клініки — з документацією.' },
-];
+/* Four of the six real service pages (business.ts SERVICES) — the grid holds four. */
+const services = allServices.filter((sv) =>
+  ['dyzajn-interieru', 'remont-kvartyr-pid-kliuch', 'remont-budynkiv-ta-kotedzhiv', 'remont-ofisiv-ta-komertsii'].includes(sv.slug),
+);
 
+/* Real portfolio titles; the site publishes no per-object durations. */
 const projects = [
-  { name: 'Родинна квартира, ЖК Great', meta: '78 м² · дизайн + ремонт · 5 місяців', ...photos.livingPendants },
-  { name: 'Затишок на Русанівській Гавані', meta: '64 м² · ремонт під ключ · 4 місяці', ...photos.livingTv },
-  { name: 'Компактний преміум White Lines', meta: '50 м² · дизайн-проєкт · 3 місяці', ...photos.kitchenBar },
+  { name: '2-к квартира у ЖК Сирецькі Сади', meta: '62 м² · дизайн-проєкт та реалізація', ...photos.livingPendants },
+  { name: '2-к квартира у ЖК Campus', meta: '70 м² · ремонт під ключ', ...photos.livingTv },
+  { name: 'Піцерія «Люта Піца»', meta: '75 м² · комерція · ремонт під ключ', ...photos.kitchenBar },
 ];
 
 /* Placeholder swatches — replace with real team photos when the shoot lands. */
@@ -35,14 +35,14 @@ export default function V2b() {
           <span className={s.logoSub} style={{ letterSpacing: '.3em' }}>ремонту</span>
         </div>
         <NavMenu
-          items={['Проєкти', 'Послуги', 'Команда', 'Ціни', 'Контакти']}
+          items={[...site.navShort]}
           navClassName={s.nav}
           navStyle={{ gap: 26 }}
           toggleClassName={s.navToggle}
           wrapClassName={s.navWrap}
         />
-        <a href="#" className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff', padding: '12px 20px' }}>
-          Обговорити ремонт
+        <a href={site.navCtaHref} className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff', padding: '12px 20px' }}>
+          {site.navCta}
         </a>
       </header>
 
@@ -54,12 +54,12 @@ export default function V2b() {
             приймати гостей
           </h1>
           <p className={s.lede} style={{ margin: '20px 0 0', maxWidth: 430, fontSize: 15.5 }}>
-            Ми — київська студія з 12-річною історією. Проєктуємо, ремонтуємо й вмебльовуємо так, щоб ви жили в
-            результаті десятиліттями, а не переробляли через рік.
+            Ми — київська студія з 13 роками досвіду і 300+ реалізованими обʼєктами. Проєктуємо, ремонтуємо й
+            вмебльовуємо так, щоб ви жили в результаті десятиліттями, а не переробляли через рік.
           </p>
           <div className={s.btnRow} style={{ marginTop: 30 }}>
-            <a href="#" className={`${s.btn} ${s.fill}`} style={{ color: '#fff' }}>Безкоштовний виїзд і замір</a>
-            <a href="#" className={`${s.btn} ${s.outline}`}>Наші роботи</a>
+            <a href={site.navCtaHref} className={`${s.btn} ${s.fill}`} style={{ color: '#fff' }}>Виїзд спеціаліста і замір</a>
+            <a href="/portfolio" className={`${s.btn} ${s.outline}`}>Наші роботи</a>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginTop: 30 }}>
             <span className={s.avatars}>
@@ -68,7 +68,7 @@ export default function V2b() {
               ))}
             </span>
             <span style={{ font: '400 12.5px/1.5 var(--font-body), sans-serif', color: 'var(--faint)' }}>
-              <strong style={{ fontWeight: 700, color: 'var(--fg)' }}>180 родин</strong> уже живуть у наших інтер’єрах
+              <strong style={{ fontWeight: 700, color: 'var(--fg)' }}>300+ обʼєктів</strong> у Києві та області
             </span>
           </div>
         </div>
@@ -76,9 +76,10 @@ export default function V2b() {
           <div className={s.arch}>
             <Image src={photos.kitchenIsland.src} alt={photos.kitchenIsland.alt} fill priority sizes="50vw" className={s.cover} style={{ objectPosition: '50% 50%' }} />
           </div>
+          {/* the live site promises a guarantee but never a term in years */}
           <div className={s.floatStat}>
-            <div className={s.floatStatVal}>3 роки</div>
-            <div className={s.floatStatLbl}>гарантії на всі роботи</div>
+            <div className={s.floatStatVal}>Гарантія</div>
+            <div className={s.floatStatLbl}>на всі виконані роботи</div>
           </div>
         </div>
       </section>
@@ -86,10 +87,10 @@ export default function V2b() {
       <section className={s.section}>
         <div className={s.grid4}>
           {services.map((sv) => (
-            <div className={s.softCard} key={sv.name}>
+            <a href={`/posluhy/${sv.slug}/`} className={s.softCard} key={sv.slug}>
               <div className={s.softCardName}>{sv.name}</div>
               <p className={s.softCardNote}>{sv.note}</p>
-            </div>
+            </a>
           ))}
         </div>
       </section>
@@ -111,7 +112,7 @@ export default function V2b() {
         </div>
         <div className={s.grid3} style={{ marginTop: 20 }}>
           {projects.map((p) => (
-            <a href="#" className={s.tile} key={p.name}>
+            <a href="/portfolio" className={s.tile} key={p.name}>
               <span className={`${s.frame} ${s.frameRound} ${s.h210}`}>
                 <Image src={p.src} alt={p.alt} fill sizes="33vw" className={s.cover} style={{ objectPosition: p.pos }} />
               </span>
@@ -127,15 +128,12 @@ export default function V2b() {
       <section className={s.section}>
         <div className={s.grid2} style={{ alignItems: 'center' }}>
           <blockquote className={s.testimonial}>
-            <p>
-              «Приємно, коли на дзвінок відповідає та сама людина, що приїздила на замір. За чотири місяці — жодного
-              сюрпризу в рахунку.»
-            </p>
+            <p>«{testimonials[1].quote}»</p>
             <div className={s.person}>
               <span className={s.personAvatar} />
               <span>
-                <span className={s.personName}>Ольга Данилець</span>
-                <span className={s.personRole}>ЖК Причал 8 · 87 м²</span>
+                <span className={s.personName}>{testimonials[1].name}</span>
+                <span className={s.personRole}>{testimonials[1].role}</span>
               </span>
             </div>
           </blockquote>
@@ -161,12 +159,12 @@ export default function V2b() {
       <section className={s.section}>
         <div className={s.ctaWarm}>
           <div>
-            <h2>Приїдемо, поміряємо, порахуємо — безкоштовно</h2>
-            <p>м. Київ, ЖК Great, Дніпровська набережна 15Ж, оф. 5 · hubremontu@gmail.com</p>
+            <h2>Приїдемо, поміряємо, порахуємо</h2>
+            <p>{site.address} · {site.email}</p>
           </div>
           <div className={s.btnRow}>
-            <a href="tel:+380683833888" className={`${s.btn} ${s.btnOnAcc}`}>+38 068 383 38 88</a>
-            <a href="#" className={`${s.btn} ${s.btnWhite}`}>Записатись на замір</a>
+            <a href={site.phoneHref} className={`${s.btn} ${s.btnOnAcc}`}>{site.phone}</a>
+            <a href={site.navCtaHref} className={`${s.btn} ${s.btnWhite}`}>{site.navCta}</a>
           </div>
         </div>
       </section>

@@ -61,15 +61,25 @@ img { display: block; }
   border-bottom: 1px solid var(--rule-light);
 }
 .header a:hover { color: var(--sand); }
-.logo { display: flex; align-items: baseline; gap: 10px; }
-.logo__mark {
-  font: 800 19px/1 var(--font-display), sans-serif;
-  letter-spacing: -0.02em;
+.logo { display: flex; align-items: center; flex-shrink: 0; }
+.logo img { height: 40px; width: auto; }
+.header__actions { display: flex; align-items: center; gap: 16px; }
+.header__phone {
+  font: 500 13px/1 var(--font-body), sans-serif;
+  color: rgba(242, 238, 232, 0.82);
+  white-space: nowrap;
 }
-.logo__sub {
-  font: 500 10px/1 var(--font-body), sans-serif;
-  letter-spacing: 0.34em;
-  color: var(--sand);
+
+/* The one type device the live site uses on every heading: the emphasised words
+   are drawn as a hairline outline instead of a fill (style.scss — .h1-outline-text,
+   .section-title h2 span, .animation-view-content span:nth-child(odd)).
+   -webkit-text-stroke is the only thing that draws it at this weight; both
+   engines we ship to support it. `--fg` is only defined on the /full/* palettes,
+   so the fallback covers the hero pages, which have no such var. */
+.stroke {
+  color: transparent;
+  -webkit-text-stroke: 0.5px var(--fg, var(--paper));
+  user-select: none;
 }
 /* .navWrap just wraps the nav so it is the flex item at desktop — the header
    still reads logo | nav | CTA. The toggle only exists below 900px. */
@@ -131,6 +141,7 @@ img { display: block; }
   text-wrap: pretty;
 }
 .heroSplit__actions { margin-top: 32px; }
+.heroSplit__socials { margin-top: 36px; }
 .heroSplit__photo {
   position: relative;
   min-height: 560px;
@@ -148,6 +159,23 @@ img { display: block; }
 }
 .photoCaption span { color: rgba(242, 238, 232, 0.5); }
 
+/* ---------- socials ---------- */
+/* 50px black circles, bronze on hover — style.scss .main-banner-social */
+.socials { display: flex; align-items: center; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.socials a {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #000;
+  font: 600 12px/1 var(--font-mono), monospace;
+  letter-spacing: 0.06em;
+  color: var(--paper-warm);
+}
+.socials a:hover { color: var(--sand); }
+.socials--onPaper a { background: var(--ink); }
+
 /* ---------- hero 3b ---------- */
 .heroOverlay { position: relative; min-height: 660px; background: var(--ink-deep); }
 .heroOverlay__scrim {
@@ -164,7 +192,15 @@ img { display: block; }
   text-wrap: balance;
   text-shadow: 0 2px 20px rgba(21, 19, 15, 0.35);
 }
-.heroOverlay__title em { font-style: normal; color: var(--sand); }
+/* the site's hero draws its second line as outline, not as a colour change
+   (.main-banner-content h1 .h1-outline-text) — text-shadow on the h1 would
+   smear a hairline stroke, so the outline line drops it */
+.heroOverlay__title em {
+  font-style: normal;
+  color: transparent;
+  -webkit-text-stroke: 0.6px var(--paper);
+  text-shadow: none;
+}
 .heroOverlay__lede {
   margin-top: 22px;
   max-width: 480px;
@@ -363,6 +399,20 @@ img { display: block; }
 /* a span, so it needs display:block or the height is ignored and the photo
    collapses to 0x0 — this is the only box the `fill` image can size against */
 .projectCard__frame { display: block; position: relative; height: 240px; overflow: hidden; }
+/* RecentProjects.tsx .project-brand-badge / WhatWeDo.tsx DepartmentBadge */
+.brandBadge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+}
+.brandBadge img { width: 30px; height: 30px; object-fit: contain; }
 .projectCard__meta {
   display: flex;
   justify-content: space-between;
@@ -394,6 +444,61 @@ img { display: block; }
   margin-top: 12px;
   font: 400 13.5px/1.6 var(--font-body), sans-serif;
   color: rgba(242, 238, 232, 0.6);
+}
+.contact__socials { margin-top: 24px; }
+
+/* ---------- process band ---------- */
+.process { background: #24231d; padding: 76px var(--pad-x) 80px; }
+.process__title {
+  font: 700 38px/1.1 var(--font-body), sans-serif;
+  letter-spacing: -0.03em;
+  color: #e1dbd6;
+  text-align: center;
+  margin-bottom: 44px;
+}
+.process__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; }
+.processCard { padding: 26px 24px 30px; border-left: 1px dashed rgba(242, 238, 232, 0.22); }
+.processCard:last-child { border-right: 1px dashed rgba(242, 238, 232, 0.22); }
+.processCard__num {
+  font: 700 34px/1 var(--font-display), sans-serif;
+  color: var(--sand);
+}
+.processCard__name {
+  margin-top: 18px;
+  font: 700 19px/1.25 var(--font-body), sans-serif;
+  color: #e1dbd6;
+}
+.processCard__note {
+  margin-top: 10px;
+  font: 400 13.5px/1.6 var(--font-body), sans-serif;
+  color: #9d9a97;
+}
+
+/* ---------- marquee band ---------- */
+/* --bg only exists on the /full/* palettes; on the hero pages it falls back to
+   --ink. Without this, the band seams against 1a's darker #161512 base. */
+.marquee { overflow: hidden; padding: 34px 0; background: var(--bg, var(--ink)); }
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marqueeScroll 42s linear infinite;
+}
+.marquee__track:hover { animation-play-state: paused; }
+.marquee__half { display: flex; flex-shrink: 0; }
+.marquee__half > span {
+  padding: 0 26px;
+  font: 700 48px/1.15 var(--font-body), sans-serif;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+  color: #9c9c9c;
+}
+/* .stroke's paper stroke is too bright against the grey siblings here */
+.marquee__half > span.stroke { -webkit-text-stroke-color: #9c9c9c; }
+@keyframes marqueeScroll {
+  to { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; }
 }
 
 /* ---------- variant index ---------- */
@@ -518,6 +623,9 @@ img { display: block; }
   }
   .navWrap[data-open] .nav a:last-child { border-bottom: none; }
   .header__cta { padding: 11px 14px; font-size: 12px; }
+  /* logo + toggle + CTA already fill the row at 360px */
+  .header__phone { display: none; }
+  .logo img { height: 32px; }
 
   /* stacked buttons of different widths read as an accident — match them.
      Headers opt out: their buttons stay inline next to the logo. */
@@ -557,6 +665,13 @@ img { display: block; }
   .diptychHalf--dark .diptychHalf__text { padding: 40px var(--pad-x) 0; }
   .diptychHalf__title { font-size: 30px; }
   .seam__title { font-size: 24px; }
+  .marquee__half > span { font-size: 28px; padding: 0 16px; }
+  .process { padding: 48px var(--pad-x) 52px; }
+  .process__title { font-size: 26px; margin-bottom: 28px; }
+  .process__grid { grid-template-columns: 1fr; }
+  /* dashed verticals between four columns become dashed rules between four rows */
+  .processCard { border-left: none; border-top: 1px dashed rgba(242, 238, 232, 0.22); padding: 22px 0 24px; }
+  .processCard:last-child { border-right: none; border-bottom: 1px dashed rgba(242, 238, 232, 0.22); }
   .contact__title { font-size: 22px; }
   .projects__title { font-size: 24px; }
 }

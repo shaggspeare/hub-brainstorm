@@ -36,14 +36,18 @@ Same copy in all three; only the hero presentation differs.
       DirectionsSplit.tsx  Architects / Builds split section
       SeamBanner.tsx       bronze "відповідаємо за стик" strip
       StatsRow.tsx         numeric row (takes any stat list)
-      ProjectGrid.tsx      3-up project cards
+      ProjectGrid.tsx      3-up project cards, each with its department badge
       ContactCta.tsx       dark closing block
+      Socials.tsx          the four real social links, as filled circles
+      Marquee.tsx          the live site's scrolling text band (TextSlide.tsx)
+      ProcessRow.tsx       the live site's four-step process band
       VariantSwitcher.tsx  fixed 3a/3b/3c pill, review aid — delete for production
       full/
         full.module.css    palettes + all primitives for the six full pages
-        v1a…v2c/page.tsx   one full page per variant (copy lives in the page)
+        v1a…v2c/page.tsx   one full page per variant (layout in the page,
+                           facts imported from lib/content.ts)
       FullVariantSwitcher.tsx  fixed 1a…2c pill, review aid — delete for production
-    lib/content.ts         ALL copy, prices, stats, projects for the HERO pages
+    lib/content.ts         every fact all nine pages state — see "Facts" below
     lib/photos.ts          every photo + its crop, shared by all nine pages
 
 ## Two style layers
@@ -58,6 +62,28 @@ variant = one palette block + one page.
 Per-element one-offs (photo `objectPosition`, a gantt bar's left/width, a
 max-width on one paragraph) stay as inline `style` next to the markup — those
 are data, not theme.
+
+## Facts
+
+`lib/content.ts` is the only place a number, price, name, phone, route or
+service title may come from, and every value in it is lifted from the live site
+at `../hub-remontu/hub-remontu-website` — the file names its source per block
+(`src/constants/business.ts`, `src/data/services.tsx`,
+`src/data/projectsShortInfo.tsx`, `src/components/Pricing/DepartmentPricing.tsx`,
+`src/components/ArchitectureHome/*`, `src/components/Layout/{Navbar,Footer}.tsx`).
+
+The six full pages used to hold their own inline copies of these values, and
+they drifted: "180+ проєктів" (the site says 300+), "12 років" (13), "3 роки
+гарантії" (the site promises a guarantee but never a term), "92% здано в строк"
+(published nowhere), "від $35 / м²" for design and "від $290 / м²" for
+renovation (Architects is «Індивідуальний розрахунок»; Builds is
+«від 1000 $/м²» — 3.5× what the variants claimed). These are pages a client
+reads as a quote, so an invented number is one they would have to defend.
+Import from `lib/content.ts`; do not retype a value into a page.
+
+The one deliberate exception is the 2a headline — «Хтось малює красиво…» is new
+copy being proposed, not something the site says. It lives in `hero`, while the
+site's own headline lives in `heroOriginal`, which 1a and 1b use.
 
 ## Conventions
 
@@ -79,6 +105,17 @@ are data, not theme.
   is a `<span>`, give it `display: block` or it collapses to 0x0.
 * Copy is Ukrainian and lives only in `lib/content.ts` — swap that file to
   re-language the whole thing.
+* The live site's one type device is outline text: the emphasised words of every
+  heading are drawn as a hairline stroke instead of a fill (`.h1-outline-text`,
+  `.section-title h2 span`). That is the global `.stroke` class, and it strokes
+  with `--fg` so it works on any of the seven palettes. 1a, 3b and the marquee
+  use it; the cream variants do not, because a hairline on cream disappears.
+* 1a is the only variant that is *not* an exploration: it is the live site's own
+  palette (`#161512` / `#ba8d6d` / `#e1dbd6` / `#9d9a97`, `#24231d` process
+  band, dashed `#414040` rules, zero radius) and its only typeface, Geologica,
+  which is why `--font-site` exists in `app/layout.tsx`. Two of its values
+  deviate on purpose because the site's own fail AA — see the comment above the
+  `.v1a` block.
 * Breakpoints: a single `@media (max-width: 900px)` block at the end of each
   stylesheet holds all the mobile rules. Below it the header is one row —
   logo, menu toggle, primary CTA — with the nav in a drop panel
@@ -91,11 +128,14 @@ are data, not theme.
 
 ## Known gaps
 
-* Nav and CTA links are `#` placeholders; no forms, no analytics. Phone
-  numbers are real `tel:` links.
+* Links now point at the live site's real routes (`/anketa-form`, `/portfolio`,
+  `/posluhy/<slug>/`, `/tsiny`, `/contact-us`), but nothing is wired: there are
+  no such pages in this repo, so every one of them 404s here. No forms, no
+  analytics. Phone numbers are real `tel:` links.
 * Project photos come from `public/images/backgrounds` — interiors, no people.
-  The names and areas beside them are still design-review copy, not matched
-  to the actual rooms shown.
+  Titles and areas are now the site's real ones, but a title still does not
+  describe the room in the photo beside it: there are ten interiors and the
+  portfolio has 300+ objects. Matching them needs the real project photos.
 * 2b's team portraits and hero avatars are flat color swatches — the photo set
   contains no people, so real portraits are still pending.
 * Source JPEGs are capped at 2560px on the long edge and re-encoded at q90

@@ -13,7 +13,7 @@ export default function DirectionsSplit({ mode = 'prices' }: { mode?: Mode }) {
           <div className={`direction direction--${dark ? 'dark' : 'light'}`} key={key}>
             <div className="direction__head">
               <span className="direction__name">{d.name}</span>
-              <span className="direction__tag">{d.tag}</span>
+              <span className="direction__tag">{d.tagline}</span>
             </div>
             {mode === 'prices' ? (
               <>
@@ -38,7 +38,7 @@ export default function DirectionsSplit({ mode = 'prices' }: { mode?: Mode }) {
                 />
               </div>
             )}
-            <a href="#" className={`btn btn--sm direction__cta ${dark ? 'btn--sand' : 'btn--outlineSolid'}`}>
+            <a href={d.href} className={`btn btn--sm direction__cta ${dark ? 'btn--sand' : 'btn--outlineSolid'}`}>
               {d.cta}
             </a>
           </div>

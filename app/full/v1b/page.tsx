@@ -3,20 +3,24 @@ import s from '../full.module.css';
 import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
+import { heroOriginal, site, statsWide, testimonials } from '@/lib/content';
 
 export const metadata = { title: '1b · Світлий редакційний — Hub Remontu' };
 
+/* Real portfolio titles (projectsShortInfo.tsx) — the site names an object by
+   its layout, area and ЖК, not with a mood line. */
 const cases = [
-  { date: '01 / 2025', name: 'Двокімнатна квартира для родини', meta: 'ЖК GREAT · 66 М² · ДИЗАЙН + РЕМОНТ + МЕБЛЮВАННЯ', ...photos.livingGreenery },
-  { date: '02 / 2025', name: 'Розкішний приватний будинок', meta: 'ХОДОСІВКА · 280 М² · ДИЗАЙН-ПРОЄКТ ТА АВТОРСЬКИЙ НАГЛЯД', ...photos.fireplace },
-  { date: '03 / 2024', name: 'Квартира на мансардному поверсі', meta: 'ЖК КРИШТАЛЕВІ ДЖЕРЕЛА · 109 М² · РЕМОНТ ПІД КЛЮЧ', ...photos.kitchenOval },
+  { date: '01', name: '2-к квартира у ЖК Сирецькі Сади', meta: '62 М² · ДИЗАЙН-ПРОЄКТ ТА РЕАЛІЗАЦІЯ', ...photos.livingGreenery },
+  { date: '02', name: '3-к квартира у ЖК Файна Таун', meta: '72 М² · РЕМОНТ ПІД КЛЮЧ', ...photos.fireplace },
+  { date: '03', name: 'Офісне приміщення, ЖК New York Concept House', meta: '700 М² · КОМЕРЦІЯ · РЕМОНТ ПІД КЛЮЧ', ...photos.kitchenOval },
 ];
 
+/* The four real service pages of the two departments (business.ts SERVICES). */
 const cells = [
-  { n: '01', name: 'Дизайн інтер’єру', note: 'Планування, візуалізації, креслення, підбір матеріалів.' },
-  { n: '02', name: 'Дизайн комерції', note: 'Офіси, ресторани, клініки, магазини — з повною документацією.' },
-  { n: '03', name: 'Ремонт під ключ', note: 'Власна команда майстрів, фіксована ціна, щотижневий звіт.' },
-  { n: '04', name: 'Меблювання', note: 'Замовляємо, приймаємо, збираємо — ви заходите в готове.' },
+  { n: '01', name: 'Дизайн інтерʼєру', note: 'Індивідуальний проєкт під ваш стиль і бюджет, 3D-візуалізації.' },
+  { n: '02', name: 'Дизайн комерції', note: 'Офіси, ресторани, клініки, шоуруми — з повною документацією.' },
+  { n: '03', name: 'Ремонт квартир під ключ', note: 'Власна команда, фіксована ціна в договорі, авторський нагляд.' },
+  { n: '04', name: 'Ремонт офісів та комерції', note: 'Запускаємо бізнес вчасно, мінімізуємо простій.' },
 ];
 
 export default function V1b() {
@@ -28,13 +32,13 @@ export default function V1b() {
           <span className={s.logoSub}>REMONTU</span>
         </div>
         <NavMenu
-          items={['Проєкти', 'Послуги', 'Студія', 'Ціни', 'Контакти']}
+          items={[...site.navShort]}
           navClassName={s.nav}
           toggleClassName={s.navToggle}
           wrapClassName={`${s.navWrap} ${s.navWrapEnd}`}
         />
         <div className={s.hdrActions}>
-          <a href="#" className={`${s.btn} ${s.btnSm} ${s.outlineSolid}`}>Анкета проєкту</a>
+          <a href={site.navCtaHref} className={`${s.btn} ${s.btnSm} ${s.outlineSolid}`}>{site.navCta}</a>
         </div>
       </header>
 
@@ -44,19 +48,19 @@ export default function V1b() {
             СТУДІЯ ДИЗАЙНУ ТА КОМПЛЕКСНОГО РЕМОНТУ · КИЇВ
           </div>
           <h1 className={s.h1Serif}>
-            Дизайн зі змістом.
+            {heroOriginal.titleLead}
             <br />
-            <em>Ремонт зі смаком.</em>
+            <em>{heroOriginal.titleAccent}</em>
           </h1>
         </div>
         <div style={{ paddingBottom: 10 }}>
           <p className={s.lede} style={{ fontSize: 15.5 }}>
-            Ми проєктуємо, ремонтуємо та вмебльовуємо — одна команда від першого ескізу до келиха шампанського на
-            новосіллі.
+            Студія дизайну інтерʼєру та комплексного ремонту: створюємо оселю мрії від концепції до келиха шампанського
+            на честь вашого новосілля.
           </p>
           <div className={s.btnRow} style={{ marginTop: 26 }}>
-            <a href="#" className={`${s.btn} ${s.fillInk}`}>Отримати консультацію</a>
-            <a href="#" className={`${s.btn} ${s.outline}`}>Портфоліо</a>
+            <a href={heroOriginal.ctaHref} className={`${s.btn} ${s.fillInk}`}>{heroOriginal.cta}</a>
+            <a href="/portfolio" className={`${s.btn} ${s.outline}`}>Портфоліо</a>
           </div>
         </div>
       </section>
@@ -66,15 +70,10 @@ export default function V1b() {
       </div>
 
       <div className={s.stats} style={{ margin: '0 var(--pad)', borderBottom: '1px solid var(--rule)', gap: 0 }}>
-        {[
-          { v: '12', l: 'років практики' },
-          { v: '180+', l: 'проєктів у Києві та області' },
-          { v: '3 роки', l: 'гарантії на роботи' },
-          { v: 'Фікс', l: 'ціна закріплена в договорі' },
-        ].map((x) => (
-          <div className={s.stat} key={x.l} style={{ padding: '26px 0' }}>
-            <div className={s.statValSerif}>{x.v}</div>
-            <div className={s.statLbl}>{x.l}</div>
+        {statsWide.map((x) => (
+          <div className={s.stat} key={x.label} style={{ padding: '26px 0' }}>
+            <div className={s.statValSerif}>{x.value}</div>
+            <div className={s.statLbl}>{x.label}</div>
           </div>
         ))}
       </div>
@@ -82,8 +81,8 @@ export default function V1b() {
       <section className={s.section} style={{ paddingTop: 72 }}>
         <div className={s.headRow} style={{ marginBottom: 44, alignItems: 'baseline' }}>
           <h2 className={s.h2Serif}>Вибрані проєкти</h2>
-          <a href="#" style={{ font: '600 12px/1 var(--font-body), sans-serif', letterSpacing: '.14em', color: 'var(--acc)' }}>
-            ВСІ 180 ПРОЄКТІВ →
+          <a href="/portfolio" style={{ font: '600 12px/1 var(--font-body), sans-serif', letterSpacing: '.14em', color: 'var(--acc)' }}>
+            ВСІ ПРОЄКТИ →
           </a>
         </div>
         {cases.map((c) => (
@@ -127,11 +126,8 @@ export default function V1b() {
               ))}
             </div>
             <blockquote className={s.quote}>
-              <p>
-                Одна з небагатьох компаній, яка реально подивилась на мій дизайн-проєкт і дала ціну під конкретні роботи,
-                а не «середню за м²».
-              </p>
-              <footer>ОЛЬГА ДАНИЛЕЦЬ · КЛІЄНТКА</footer>
+              <p>{testimonials[0].quote}</p>
+              <footer>{testimonials[0].name.toUpperCase()} · {testimonials[0].role.toUpperCase()}</footer>
             </blockquote>
           </div>
         </div>
@@ -142,14 +138,14 @@ export default function V1b() {
           <div>
             <h2 className={s.h2Serif} style={{ fontSize: 40 }}>Найкращий час познайомитись — вже зараз</h2>
             <p style={{ margin: '18px 0 0', maxWidth: 420, font: '400 14.5px/1.7 var(--font-body), sans-serif', color: 'rgba(244,241,234,.62)' }}>
-              м. Київ, ЖК Great, Дніпровська набережна, 15Ж, офіс 5 · hubremontu@gmail.com
+              {site.address} · {site.email}
             </p>
           </div>
           <div className={s.btnRow} style={{ justifyContent: 'flex-end' }}>
-            <a href="tel:+380683833888" className={`${s.btn} ${s.outline}`} style={{ borderColor: 'rgba(244,241,234,.3)', color: '#f4f1ea' }}>
-              +38 068 383 38 88
+            <a href={site.phoneHref} className={`${s.btn} ${s.outline}`} style={{ borderColor: 'rgba(244,241,234,.3)', color: '#f4f1ea' }}>
+              {site.phone}
             </a>
-            <a href="#" className={s.btn} style={{ background: 'var(--accHi)', color: '#1a1714' }}>Заповнити анкету</a>
+            <a href={site.navCtaHref} className={s.btn} style={{ background: 'var(--accHi)', color: '#1a1714' }}>{site.navCta}</a>
           </div>
         </div>
       </section>

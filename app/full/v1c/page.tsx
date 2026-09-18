@@ -3,26 +3,28 @@ import s from '../full.module.css';
 import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
+import { directions, process, site } from '@/lib/content';
 
 export const metadata = { title: '1c · Каталог — Hub Remontu' };
 
-const tickerItems = ['180+ ПРОЄКТІВ', '·', 'ФІКСОВАНА ЦІНА В ДОГОВОРІ', '·', '3 РОКИ ГАРАНТІЇ', '·', 'ЩОТИЖНЕВИЙ ЗВІТ', '·', 'ВЛАСНА КОМАНДА МАЙСТРІВ', '·'];
+/* Only claims the live site actually publishes (business.ts, services.tsx,
+   DepartmentPricing.tsx). There is no guarantee term in years anywhere on it. */
+const tickerItems = ['300+ РЕАЛІЗОВАНИХ ОБʼЄКТІВ', '·', '13 РОКІВ ДОСВІДУ', '·', 'ФІКСОВАНА ЦІНА В ДОГОВОРІ', '·', 'ОПЛАТА ЗА ФАКТОМ РОБІТ', '·', 'ВЛАСНА КОМАНДА, БЕЗ СУБПІДРЯДНИКІВ', '·'];
 
+/* Real titles from projectsShortInfo.tsx, including the commercial half of the
+   portfolio. НАПРЯМОК replaces the invented «ТЕРМІН» — the site publishes no
+   per-object timelines. */
 const catalog = [
-  { name: 'Функціональний інтер’єр для родини', ...photos.loungeColumn, specs: [['ЖК', 'GREAT'], ['ПЛОЩА', '78 М²'], ['ТЕРМІН', '5 МІС']] },
-  { name: 'Приватний будинок у Ходосівці', ...photos.fireplace, specs: [['ТИП', 'БУДИНОК'], ['ПЛОЩА', '280 М²'], ['ТЕРМІН', '14 МІС']] },
-  { name: 'Простора квартира San Francisco', ...photos.livingPendants, specs: [['ЖК', 'S.F. CREATIVE'], ['ПЛОЩА', '99 М²'], ['ТЕРМІН', '6 МІС']] },
-  { name: 'Затишна квартира для родини', ...photos.kitchenOval, specs: [['ЖК', 'РУСАНІВСЬКА ГАВАНЬ'], ['ПЛОЩА', '64 М²'], ['ТЕРМІН', '4 МІС']] },
-  { name: 'Преміум дизайн-проєкт White Lines', ...photos.kitchenBar, specs: [['ЖК', 'WHITE LINES'], ['ПЛОЩА', '50 М²'], ['ТЕРМІН', '3 МІС']] },
-  { name: 'Елегантна квартира Причал 8', ...photos.kitchenMarble, specs: [['ЖК', 'ПРИЧАЛ 8'], ['ПЛОЩА', '87 М²'], ['ТЕРМІН', '5 МІС']] },
+  { name: '2-рівнева квартира у ЖК Зарічний', ...photos.loungeColumn, specs: [['ТИП', 'КВАРТИРА'], ['ПЛОЩА', '140 М²'], ['НАПРЯМОК', 'РЕМОНТ']] },
+  { name: '3-к квартира у ЖК Файна Таун', ...photos.fireplace, specs: [['ТИП', 'КВАРТИРА'], ['ПЛОЩА', '72 М²'], ['НАПРЯМОК', 'РЕМОНТ']] },
+  { name: '2-к квартира у ЖК Сирецькі Сади', ...photos.livingPendants, specs: [['ТИП', 'КВАРТИРА'], ['ПЛОЩА', '62 М²'], ['НАПРЯМОК', 'ДИЗАЙН']] },
+  { name: 'Офісне приміщення, ЖК New York Concept House', ...photos.kitchenOval, specs: [['ТИП', 'ОФІС'], ['ПЛОЩА', '700 М²'], ['НАПРЯМОК', 'РЕМОНТ']] },
+  { name: 'Піцерія «Люта Піца»', ...photos.kitchenBar, specs: [['ТИП', 'РЕСТОРАН'], ['ПЛОЩА', '75 М²'], ['НАПРЯМОК', 'РЕМОНТ']] },
+  { name: '2-к квартира у ЖК Campus', ...photos.kitchenMarble, specs: [['ТИП', 'КВАРТИРА'], ['ПЛОЩА', '70 М²'], ['НАПРЯМОК', 'ДИЗАЙН']] },
 ];
 
-const steps = [
-  { n: '01', name: 'Знайомство', note: 'Дзвінок або зустріч у студії в ЖК Great.' },
-  { n: '02', name: 'Виїзд і замір', note: 'Оцінка стану об’єкта, план майбутніх робіт.' },
-  { n: '03', name: 'Проєкт і кошторис', note: 'Детальний кошторис, договір, графік робіт.' },
-  { n: '04', name: 'Роботи', note: 'Матеріали, майстри, щотижневий звіт до здачі.' },
-];
+/* Process.tsx, verbatim step names */
+const steps = process.map((p, i) => ({ n: `0${i + 1}`, name: p.name, note: p.note }));
 
 export default function V1c() {
   return (
@@ -38,14 +40,14 @@ export default function V1c() {
           </span>
         </div>
         <NavMenu
-          items={['КАТАЛОГ', 'ПОСЛУГИ', 'СТУДІЯ', 'ЦІНИ']}
+          items={site.navShort.map((n) => n.toUpperCase())}
           navClassName={`${s.nav} ${s.navMono}`}
           toggleClassName={s.navToggle}
           wrapClassName={`${s.navWrap} ${s.navWrapEnd}`}
           label="МЕНЮ"
         />
         <div className={s.hdrActions}>
-          <a href="#" className={`${s.btn} ${s.btnMono} ${s.fill}`} style={{ padding: '11px 16px' }}>КОШТОРИС →</a>
+          <a href={site.navCtaHref} className={`${s.btn} ${s.btnMono} ${s.fill}`} style={{ padding: '11px 16px' }}>АНКЕТА →</a>
         </div>
       </header>
 
@@ -54,7 +56,7 @@ export default function V1c() {
           <div className={s.ruleRow}>
             <span>КИЇВ</span>
             <span />
-            <span>З 2014</span>
+            <span>13 РОКІВ</span>
           </div>
           <h1 className={s.h1Display}>
             Дизайн
@@ -68,8 +70,8 @@ export default function V1c() {
             старту.
           </p>
           <div className={s.btnRow} style={{ marginTop: 32 }}>
-            <a href="#" className={`${s.btn} ${s.btnMono} ${s.fill}`}>ПОРАХУВАТИ КОШТОРИС</a>
-            <a href="#" className={`${s.btn} ${s.btnMono} ${s.outline}`}>КАТАЛОГ ПРОЄКТІВ</a>
+            <a href={site.navCtaHref} className={`${s.btn} ${s.btnMono} ${s.fill}`}>ПОРАХУВАТИ КОШТОРИС</a>
+            <a href="/portfolio" className={`${s.btn} ${s.btnMono} ${s.outline}`}>КАТАЛОГ ПРОЄКТІВ</a>
           </div>
         </div>
         <div className={s.heroCatalogPhoto}>
@@ -100,10 +102,11 @@ export default function V1c() {
         <div className={s.headRow}>
           <h2 className={s.h2Display} style={{ fontSize: 30 }}>Каталог проєктів</h2>
           <span className={s.filterRow}>
-            <span className={`${s.filter} ${s.filterOn}`}>УСІ · 180</span>
-            <span className={s.filter}>ДИЗАЙН · 96</span>
-            <span className={s.filter}>РЕМОНТ · 71</span>
-            <span className={s.filter}>КОМЕРЦІЯ · 13</span>
+            {/* the site publishes a 300+ total but no per-category split */}
+            <span className={`${s.filter} ${s.filterOn}`}>УСІ · 300+</span>
+            <span className={s.filter}>ДИЗАЙН</span>
+            <span className={s.filter}>РЕМОНТ</span>
+            <span className={s.filter}>КОМЕРЦІЯ</span>
           </span>
         </div>
         <div className={s.hairGrid}>
@@ -136,8 +139,8 @@ export default function V1c() {
               це коштує
             </h2>
             <p className={s.lede} style={{ margin: '18px 0 0', fontSize: 13.5 }}>
-              Три поля — і ви бачите вилку ціни за поточними прайсами. Далі виїзд спеціаліста, замір, кошторис по
-              позиціях.
+              Три поля — і ви бачите орієнтир від опублікованої ставки Hub Builds ({directions.builds.price}). Далі
+              виїзд спеціаліста, замір і кошторис по позиціях.
             </p>
           </div>
           <div>
@@ -154,7 +157,8 @@ export default function V1c() {
                 <div className={s.mono} style={{ letterSpacing: '.14em', color: 'var(--faint)', marginBottom: 10 }}>
                   ОРІЄНТОВНО, РОБОТИ + МАТЕРІАЛИ
                 </div>
-                <div className={s.calcSum}>$21 600 — 27 400</div>
+                {/* 72 м² × «від 1000 $/м²» (DepartmentPricing.tsx) */}
+                <div className={s.calcSum}>від $72 000</div>
               </div>
               <a href="#" className={`${s.btn} ${s.btnMono} ${s.fillPaper}`}>ОТРИМАТИ ТОЧНИЙ →</a>
             </div>
@@ -173,12 +177,13 @@ export default function V1c() {
           ))}
         </div>
         <div className={s.footRow}>
-          <span>HUB REMONTU · КИЇВ, ЖК GREAT, ДНІПРОВСЬКА НАБЕРЕЖНА 15Ж, ОФ. 5</span>
-          <span style={{ display: 'flex', gap: 20 }}>
-            <a href="#">TELEGRAM</a>
-            <a href="#">INSTAGRAM</a>
-            <a href="#">FACEBOOK</a>
-            <a href="tel:+380683833888" className={s.accent}>+38 068 383 38 88</a>
+          <span>HUB REMONTU · {site.address.toUpperCase()}</span>
+          <span style={{ display: 'flex', flexWrap: 'wrap', gap: 20 }}>
+            <a href="https://t.me/HUB_GROUP_BOT" target="_blank" rel="noopener noreferrer">TELEGRAM</a>
+            <a href="https://www.instagram.com/hub_architects" target="_blank" rel="noopener noreferrer">IG ARCHITECTS</a>
+            <a href="https://www.instagram.com/hub_builds" target="_blank" rel="noopener noreferrer">IG BUILDS</a>
+            <a href="https://www.facebook.com/profile.php?id=61555825405999" target="_blank" rel="noopener noreferrer">FACEBOOK</a>
+            <a href={site.phoneHref} className={s.accent}>{site.phone}</a>
           </span>
         </div>
       </section>

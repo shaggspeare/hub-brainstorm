@@ -1,6 +1,7 @@
 import Image from 'next/image';
-import { hero, statsCore } from '@/lib/content';
+import { hero, site, statsCore } from '@/lib/content';
 import StatsRow from './StatsRow';
+import Socials from './Socials';
 
 export default function HeroSplit() {
   return (
@@ -14,14 +15,15 @@ export default function HeroSplit() {
         </h1>
         <p className="heroSplit__lede">{hero.lede}</p>
         <div className="btnRow heroSplit__actions">
-          <a href="#" className="btn btn--ink">
+          <a href={site.navCtaHref} className="btn btn--ink">
             {hero.primaryCta}
           </a>
-          <a href="#" className="btn btn--outlineInk">
+          <a href="/portfolio" className="btn btn--outlineInk">
             {hero.secondaryCta}
           </a>
         </div>
         <StatsRow stats={statsCore} variant="inline" />
+        <Socials className="socials--onPaper heroSplit__socials" />
       </div>
       <div className="heroSplit__photo">
         <Image

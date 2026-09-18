@@ -1,4 +1,5 @@
-import { contact } from '@/lib/content';
+import { contact, site } from '@/lib/content';
+import Socials from './Socials';
 
 export default function ContactCta() {
   return (
@@ -7,12 +8,13 @@ export default function ContactCta() {
         <div>
           <h2 className="contact__title">{contact.title}</h2>
           <p className="contact__meta">{contact.meta}</p>
+          <Socials className="contact__socials" />
         </div>
         <div className="btnRow">
-          <a href={`tel:${contact.phone.replace(/\s/g, '')}`} className="btn btn--sm btn--outlinePaper">
+          <a href={site.phoneHref} className="btn btn--sm btn--outlinePaper">
             {contact.phone}
           </a>
-          <a href="#" className="btn btn--sm btn--sand">
+          <a href={site.navCtaHref} className="btn btn--sm btn--sand">
             {contact.cta}
           </a>
         </div>

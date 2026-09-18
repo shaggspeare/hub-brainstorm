@@ -3,6 +3,7 @@ import s from '../full.module.css';
 import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
+import { site } from '@/lib/content';
 
 export const metadata = { title: '2c · Прозорий процес — Hub Remontu' };
 
@@ -22,10 +23,12 @@ const week = [
   { day: 'БУДЬ-КОЛИ', name: 'Прямий контакт', note: 'Прораб і менеджер у спільному чаті.', on: true },
 ];
 
+/* Real portfolio titles. The live site publishes no plan-vs-actual durations,
+   so the second slot carries the department instead of an invented timeline. */
 const objects = [
-  { name: 'ЖК Great, 78 м²', plan: 'ПЛАН 5 МІС', done: 'ЗДАНО 4 МІС 3 ТИЖ', ...photos.livingPendants },
-  { name: 'Будинок, Ходосівка, 280 м²', plan: 'ПЛАН 14 МІС', done: 'ЗДАНО В СТРОК', ...photos.fireplace },
-  { name: 'ЖК Причал 8, 87 м²', plan: 'ПЛАН 5 МІС', done: 'ЗДАНО В СТРОК', ...photos.kitchenOval },
+  { name: '2-рівнева квартира, ЖК Зарічний', plan: 'РЕМОНТ ПІД КЛЮЧ', done: 'ЗДАНО', ...photos.livingPendants },
+  { name: '3-к квартира, ЖК Файна Таун', plan: 'РЕМОНТ ПІД КЛЮЧ', done: 'ЗДАНО', ...photos.fireplace },
+  { name: 'Офіс, ЖК New York Concept House', plan: 'КОМЕРЦІЯ · 700 М²', done: 'ЗДАНО', ...photos.kitchenOval },
 ];
 
 export default function V2c() {
@@ -37,32 +40,33 @@ export default function V2c() {
           <span className={s.logoSub} style={{ font: '500 10px/1 var(--font-mono), monospace', letterSpacing: '.28em' }}>REMONTU</span>
         </div>
         <NavMenu
-          items={['Як ми працюємо', 'Проєкти', 'Ціни', 'Студія']}
+          items={[...site.navShort]}
           navClassName={s.nav}
           navStyle={{ gap: 26 }}
           toggleClassName={s.navToggle}
           wrapClassName={s.navWrap}
         />
-        <a href="#" className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff' }}>Отримати кошторис</a>
+        <a href={site.navCtaHref} className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff' }}>{site.navCta}</a>
       </header>
 
       <section className={s.heroProcess}>
         <div>
+          {/* the site publishes no on-time percentage — this is its payment promise */}
           <div className={s.pill}>
             <span className={s.pillDot} />
-            92% проєктів здано в строк за 2025 рік
+            Фіксована ціна в договорі, оплата за фактом виконаних робіт
           </div>
           <h1 className={s.h1} style={{ fontSize: 46 }}>Ремонт без «плюс 40%» наприкінці</h1>
           <p className={s.lede} style={{ margin: '18px 0 0', maxWidth: 430 }}>
-            Кошторис по позиціях до старту, ціна закріплена в договорі, графік робіт і фотозвіт щоп’ятниці. Дизайн і
-            ремонт — однією командою.
+            Кошторис по позиціях до старту, ціна закріплена в договорі, авторський нагляд на кожному етапі. Дизайн і
+            ремонт — однією командою, без субпідрядників.
           </p>
           <div className={s.btnRow} style={{ marginTop: 28 }}>
-            <a href="#" className={`${s.btn} ${s.fill}`} style={{ color: '#fff' }}>Розрахувати кошторис</a>
-            <a href="#" className={`${s.btn} ${s.outline}`}>Приклад договору</a>
+            <a href={site.navCtaHref} className={`${s.btn} ${s.fill}`} style={{ color: '#fff' }}>Розрахувати кошторис</a>
+            <a href="/tsiny" className={`${s.btn} ${s.outline}`}>Ціни</a>
           </div>
           <div className={s.grid2} style={{ gap: 14, marginTop: 34 }}>
-            {[['180+', 'об’єктів з 2014 року'], ['3 роки', 'гарантії письмово']].map(([v, l]) => (
+            {[['300+', 'реалізованих обʼєктів'], ['13', 'років досвіду']].map(([v, l]) => (
               <div className={s.statBox} key={l}>
                 <div className={s.statVal} style={{ fontSize: 22, fontWeight: 700 }}>{v}</div>
                 <div className={s.statLbl}>{l}</div>
@@ -74,7 +78,8 @@ export default function V2c() {
         <div className={s.panel}>
           <div className={s.panelHead}>
             <span className={s.panelTitle}>Графік робіт · квартира 72 м²</span>
-            <span className={s.panelNote}>5 МІСЯЦІВ</span>
+            {/* the site names a графік робіт in Process step 3 but publishes no duration */}
+            <span className={s.panelNote}>ЕТАПИ РОБІТ</span>
           </div>
           <div className={s.ganttBody}>
             {gantt.map((g) => (
@@ -87,17 +92,18 @@ export default function V2c() {
             ))}
           </div>
           <div className={s.budgetRow}>
+            {/* 72 м² × «від 1000 $/м²» (DepartmentPricing.tsx) = від $72 000 */}
             <div className={s.budgetCell}>
               <div className={s.budgetLbl}>РОБОТИ</div>
-              <div className={s.budgetVal}>$12 400</div>
+              <div className={s.budgetVal}>$31 000</div>
             </div>
             <div className={s.budgetCell}>
               <div className={s.budgetLbl}>МАТЕРІАЛИ</div>
-              <div className={s.budgetVal}>$9 200</div>
+              <div className={s.budgetVal}>$41 000</div>
             </div>
             <div className={`${s.budgetCell} ${s.budgetTotal}`}>
               <div className={`${s.budgetLbl} ${s.budgetLblOn}`}>РАЗОМ У ДОГОВОРІ</div>
-              <div className={`${s.budgetVal} ${s.budgetValOn}`}>$21 600</div>
+              <div className={`${s.budgetVal} ${s.budgetValOn}`}>від $72 000</div>
             </div>
           </div>
         </div>
@@ -119,11 +125,11 @@ export default function V2c() {
       <section className={s.section}>
         <div className={s.headRow}>
           <h2 className={s.h2} style={{ fontWeight: 800 }}>Здані об’єкти</h2>
-          <a href="#" style={{ font: '600 12.5px/1 var(--font-body), sans-serif', color: 'var(--acc)' }}>Усі проєкти →</a>
+          <a href="/portfolio" style={{ font: '600 12.5px/1 var(--font-body), sans-serif', color: 'var(--acc)' }}>Усі проєкти →</a>
         </div>
         <div className={s.grid3} style={{ gap: 18 }}>
           {objects.map((o) => (
-            <a href="#" className={s.objCard} key={o.name}>
+            <a href="/portfolio" className={s.objCard} key={o.name}>
               <span className={`${s.frame} ${s.h200}`}>
                 <Image src={o.src} alt={o.alt} fill sizes="33vw" className={s.cover} style={{ objectPosition: o.pos ?? '50% 50%' }} />
               </span>
@@ -142,12 +148,14 @@ export default function V2c() {
       <section className={s.section}>
         <div className={s.ctaBox}>
           <div>
-            <h2>Надішліть план квартири — повернемось з кошторисом за 24 години</h2>
-            <p>м. Київ, ЖК Great, Дніпровська набережна 15Ж, оф. 5 · hubremontu@gmail.com · +38 068 383 38 88</p>
+            <h2>Надішліть план квартири — складемо кошторис після виїзду й замірів</h2>
+            <p>{site.address} · {site.email} · {site.phone}</p>
           </div>
           <div className={s.btnRow}>
-            <a href="#" className={`${s.btn} ${s.btnSm} ${s.outline}`}>Написати в Telegram</a>
-            <a href="#" className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff' }}>Надіслати план</a>
+            <a href="https://t.me/HUB_GROUP_BOT" target="_blank" rel="noopener noreferrer" className={`${s.btn} ${s.btnSm} ${s.outline}`}>
+              Написати в Telegram
+            </a>
+            <a href={site.navCtaHref} className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff' }}>{site.navCta}</a>
           </div>
         </div>
       </section>

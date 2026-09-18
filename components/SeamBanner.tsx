@@ -1,11 +1,11 @@
-import { seamLine, seamLineInline, hero } from '@/lib/content';
+import { seamLine, seamLineInline, hero, site } from '@/lib/content';
 
 export default function SeamBanner({ variant = 'full' }: { variant?: 'full' | 'inline' }) {
   if (variant === 'inline') {
     return (
       <div className="seam seam--inline">
         <h2 className="seam__title">{seamLineInline}</h2>
-        <a href="#" className="btn btn--xs btn--deep">
+        <a href={site.navCtaHref} className="btn btn--xs btn--deep">
           {hero.primaryCta} →
         </a>
       </div>
@@ -15,10 +15,10 @@ export default function SeamBanner({ variant = 'full' }: { variant?: 'full' | 'i
     <div className="seam">
       <h2 className="seam__title">{seamLine}</h2>
       <div className="btnRow">
-        <a href="#" className="btn btn--sm btn--onBronze">
+        <a href="/portfolio" className="btn btn--sm btn--onBronze">
           {hero.secondaryCta}
         </a>
-        <a href="#" className="btn btn--sm btn--deep">
+        <a href={site.navCtaHref} className="btn btn--sm btn--deep">
           {hero.primaryCta}
         </a>
       </div>

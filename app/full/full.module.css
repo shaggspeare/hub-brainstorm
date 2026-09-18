@@ -14,7 +14,24 @@
    --accHi    accent on dark panels   must clear 4.5:1 on #1a1714, and take dark text as a fill
    --accHover background of .fill:hover, must clear 4.5:1 against --onAcc
    --onAcc    text inside .fill       must clear 4.5:1 on --acc and --accHover */
-.v1a { --bg:#1a1714; --fg:#f2eee8; --acc:#d6a277; --accHi:#e6b98f; --accHover:#e6b98f; --onAcc:#15130f; --rule:rgba(242,238,232,.12); --ruleStrong:rgba(242,238,232,.22); --muted:rgba(242,238,232,.6); --faint:rgba(242,238,232,.45); --radius:2px; --pad:40px; }
+/* 1a is not an exploration — it is the live site's own palette, taken from
+   public/css/style.scss :root and the section styles it sets:
+   --blackColor #161512, --primaryColor #ba8d6d, headings #e1dbd6, body #9d9a97,
+   process band #24231d, dashed rules #414040, no radius anywhere, and Geologica
+   as the only face. Bronze clears 6.19:1 on this near-black, so unlike on the
+   cream palettes it can carry small labels itself.
+   Two values do NOT come from the live site, because its own are below AA:
+   --onAcc is #15130f, not the site's white-on-bronze (2.95:1 — the failure the
+   header comment warns about), and --faint is #928c87, not #7c7772 (4.12:1);
+   #7c7772 is the site's paragraph colour on light surfaces, not on this one. */
+.v1a {
+  --bg:#161512; --fg:#e1dbd6;
+  --acc:#ba8d6d; --accHi:#d8b798; --accHover:#d8b798; --onAcc:#15130f;
+  --rule:rgba(225,219,214,.12); --ruleStrong:#414040;
+  --muted:#9d9a97; --faint:#928c87;
+  --radius:0px; --pad:30px;
+  --font-body: var(--font-site); --font-display: var(--font-site);
+}
 .v1b { --bg:#f4f1ea; --fg:#1a1714; --acc:#7a5230; --accHi:#d6a277; --accHover:#6b4827; --onAcc:#f4f1ea; --rule:rgba(26,23,20,.14); --ruleStrong:rgba(26,23,20,.25); --muted:rgba(26,23,20,.64); --faint:rgba(26,23,20,.5); --radius:2px; --pad:44px; }
 .v1c { --bg:#15130f; --fg:#f2eee8; --acc:#e08b3e; --accHi:#f0a25c; --accHover:#f0a25c; --onAcc:#15130f; --rule:rgba(242,238,232,.14); --ruleStrong:rgba(242,238,232,.24); --muted:rgba(242,238,232,.6); --faint:rgba(242,238,232,.5); --radius:0px; --pad:36px; }
 .v2a { --bg:#f4f1ea; --fg:#1a1714; --acc:#7a5230; --accHi:#d6a277; --accHover:#6b4827; --onAcc:#f4f1ea; --rule:rgba(26,23,20,.14); --ruleStrong:rgba(26,23,20,.25); --muted:rgba(26,23,20,.62); --faint:rgba(26,23,20,.5); --radius:2px; --pad:40px; }
@@ -293,8 +310,58 @@
 .ctaBox h2 { margin: 0; font: 800 28px/1.2 var(--font-body), sans-serif; letter-spacing: -.03em; }
 .ctaBox p { margin: 12px 0 0; font: 400 13.5px/1.6 var(--font-body), sans-serif; color: var(--muted); }
 
+/* live-site devices (1a, reusable by 1c) ------------------------- */
+/* .services-card: a 1.3px dashed #414040 box with no radius, cards sharing
+   borders so the row reads as one drawn grid. The live site removes the left
+   border on every card after the first; negative margin does that without
+   nth-child rules that break when the column count changes. */
+.dashGrid { display: flex; flex-wrap: wrap; }
+.dashCard {
+  flex: 1 1 260px;
+  min-width: 0;
+  margin-left: -1.3px;
+  padding: 40px 34px 34px;
+  border: 1.3px dashed var(--ruleStrong);
+}
+.dashCardName { font: 600 21px/1.3 var(--font-body), sans-serif; color: var(--fg); }
+.dashCardNote { margin: 16px 0 0; font: 400 14px/1.65 var(--font-body), sans-serif; color: var(--muted); }
+.dashCardLink { display: inline-block; margin-top: 20px; font: 500 13px/1 var(--font-body), sans-serif; letter-spacing: .1em; color: var(--acc); }
+
+/* WhatWeDo.tsx groups its cards under a department row: brand badge, name,
+   tagline, and a link to that department's services. */
+.deptRow { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 22px; }
+.deptId { display: flex; align-items: center; gap: 14px; }
+.deptBadge { position: relative; width: 48px; height: 48px; border-radius: 50%; background: rgba(0,0,0,.55); flex-shrink: 0; overflow: hidden; }
+.deptBadge img { position: absolute; inset: 0; margin: auto; width: 31px; height: 31px; object-fit: contain; }
+.deptName { font: 600 15px/1.3 var(--font-body), sans-serif; color: var(--fg); }
+.deptTagline { margin-top: 3px; font: 400 13px/1.3 var(--font-body), sans-serif; color: var(--muted); }
+.deptLink { font: 500 13px/1 var(--font-body), sans-serif; letter-spacing: .12em; color: var(--muted); }
+.deptLink:hover { color: var(--acc); }
+
+/* the circular brand badge again, this time over a project photo */
+.tileBadge { position: absolute; top: 14px; left: 14px; width: 46px; height: 46px; border-radius: 50%; background: rgba(0,0,0,.55); overflow: hidden; z-index: 1; }
+.tileBadge img { position: absolute; inset: 0; margin: auto; width: 29px; height: 29px; object-fit: contain; }
+
+/* a plain review row — .quote is serif-italic, which fights Geologica */
+.reviewCard { padding: 30px 0 0; border-top: 1px dashed var(--ruleStrong); }
+.reviewText { margin: 0; font: 400 15px/1.7 var(--font-body), sans-serif; color: var(--muted); text-wrap: pretty; }
+.reviewWho { display: block; margin-top: 18px; font: 500 12px/1 var(--font-body), sans-serif; letter-spacing: .1em; color: var(--acc); }
+
+/* Process.tsx: #24231d band, numbers in the primary colour, dashed dividers */
+.processBand { margin-top: 60px; padding: 70px var(--pad); background: #24231d; }
+.processGrid { display: grid; grid-template-columns: repeat(4, 1fr); }
+.processCell { padding: 24px 22px 26px; border-left: 1px dashed var(--ruleStrong); }
+.processCell:last-child { border-right: 1px dashed var(--ruleStrong); }
+.processNum { font: 700 32px/1 var(--font-display), sans-serif; color: var(--acc); }
+
 /* responsive ----------------------------------------------------- */
 @media (max-width: 900px) {
+  .processGrid { grid-template-columns: 1fr; }
+  .processCell { border-left: none; border-top: 1px dashed var(--ruleStrong); padding: 20px 0 22px; }
+  .processCell:last-child { border-right: none; border-bottom: 1px dashed var(--ruleStrong); }
+  .processBand { margin-top: 40px; padding: 40px var(--pad); }
+  /* the shared-border trick needs a single column before it stops overlapping */
+  .dashCard { flex-basis: 100%; margin-left: 0; margin-top: -1.3px; padding: 28px 22px; }
   .page { --pad: 20px; }
   /* one row: logo left, menu toggle + actions right. The nav drops as a panel
      so it costs no header height until asked for. */
