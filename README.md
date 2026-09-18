@@ -93,7 +93,8 @@ are data, not theme.
   to the actual rooms shown.
 * 2b's team portraits and hero avatars are flat color swatches — the photo set
   contains no people, so real portraits are still pending.
-* Source JPEGs are full size (IMG_4550 is ~10 MB). `next/image` resizes on
-  demand so delivery is fine, but capping sources near 2560px would cut build
-  and dev-server image-optimization time.
+* Source JPEGs are capped at 2560px on the long edge and re-encoded at q90
+  (26 MB -> 14 MB), so git history stays small as the photo set churns. Only
+  the three oversized files were touched; the rest were already lean. Re-run
+  that pass on any new drop before committing it.
 * Fonts load from Google Fonts via `next/font` — self-host before launch if you care about the ToS/GDPR angle.
