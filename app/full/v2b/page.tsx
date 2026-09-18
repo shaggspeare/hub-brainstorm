@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import s from '../full.module.css';
+import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
 
@@ -33,11 +34,13 @@ export default function V2b() {
           <span className={s.logoMarkPlain}>hub</span>
           <span className={s.logoSub} style={{ letterSpacing: '.3em' }}>ремонту</span>
         </div>
-        <nav className={s.nav} style={{ gap: 26 }}>
-          {['Проєкти', 'Послуги', 'Команда', 'Ціни', 'Контакти'].map((i) => (
-            <a href="#" key={i}>{i}</a>
-          ))}
-        </nav>
+        <NavMenu
+          items={['Проєкти', 'Послуги', 'Команда', 'Ціни', 'Контакти']}
+          navClassName={s.nav}
+          navStyle={{ gap: 26 }}
+          toggleClassName={s.navToggle}
+          wrapClassName={s.navWrap}
+        />
         <a href="#" className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff', padding: '12px 20px' }}>
           Обговорити ремонт
         </a>

@@ -79,10 +79,15 @@ are data, not theme.
   is a `<span>`, give it `display: block` or it collapses to 0x0.
 * Copy is Ukrainian and lives only in `lib/content.ts` — swap that file to
   re-language the whole thing.
-* Breakpoints: single `@media (max-width: 900px)` block at the end of
-  `globals.css` collapses every two-column grid to one. Mobile hero art
-  direction was **not** designed yet — the current stacking is a sane default,
-  not an approved design.
+* Breakpoints: a single `@media (max-width: 900px)` block at the end of each
+  stylesheet holds all the mobile rules. Below it the header is one row —
+  logo, menu toggle, primary CTA — with the nav in a drop panel
+  (`components/NavMenu.tsx`, the only client component). Buttons in a `.btnRow`
+  go full width so stacked pairs line up, `.mono` labels lose tracking and gain
+  leading so they survive a wrap, and a lone third stat spans both columns.
+  Header height went 119–163px to 64–80px, so every hero headline now sits
+  above the fold. Mobile *art direction* is still undesigned: photo crops are
+  the desktop `pos` values, not per-breakpoint choices.
 
 ## Known gaps
 

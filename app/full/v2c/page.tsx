@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import s from '../full.module.css';
+import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
 
@@ -35,11 +36,13 @@ export default function V2c() {
           <span className={s.logoMarkPlain} style={{ fontSize: 18 }}>HUB</span>
           <span className={s.logoSub} style={{ font: '500 10px/1 var(--font-mono), monospace', letterSpacing: '.28em' }}>REMONTU</span>
         </div>
-        <nav className={s.nav} style={{ gap: 26 }}>
-          {['Як ми працюємо', 'Проєкти', 'Ціни', 'Студія'].map((i) => (
-            <a href="#" key={i}>{i}</a>
-          ))}
-        </nav>
+        <NavMenu
+          items={['Як ми працюємо', 'Проєкти', 'Ціни', 'Студія']}
+          navClassName={s.nav}
+          navStyle={{ gap: 26 }}
+          toggleClassName={s.navToggle}
+          wrapClassName={s.navWrap}
+        />
         <a href="#" className={`${s.btn} ${s.btnSm} ${s.fill}`} style={{ color: '#fff' }}>Отримати кошторис</a>
       </header>
 

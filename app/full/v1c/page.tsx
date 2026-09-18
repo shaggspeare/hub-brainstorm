@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import s from '../full.module.css';
+import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
 
@@ -36,12 +37,16 @@ export default function V1c() {
             <span className={s.hdrTag}>BUILDS</span>
           </span>
         </div>
-        <nav className={`${s.nav} ${s.navMono}`}>
-          {['КАТАЛОГ', 'ПОСЛУГИ', 'СТУДІЯ', 'ЦІНИ'].map((i) => (
-            <a href="#" key={i}>{i}</a>
-          ))}
+        <NavMenu
+          items={['КАТАЛОГ', 'ПОСЛУГИ', 'СТУДІЯ', 'ЦІНИ']}
+          navClassName={`${s.nav} ${s.navMono}`}
+          toggleClassName={s.navToggle}
+          wrapClassName={`${s.navWrap} ${s.navWrapEnd}`}
+          label="МЕНЮ"
+        />
+        <div className={s.hdrActions}>
           <a href="#" className={`${s.btn} ${s.btnMono} ${s.fill}`} style={{ padding: '11px 16px' }}>КОШТОРИС →</a>
-        </nav>
+        </div>
       </header>
 
       <section className={s.heroCatalog}>

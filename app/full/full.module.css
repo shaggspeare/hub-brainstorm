@@ -51,6 +51,16 @@
 .logoMarkSerif { font: 600 18px/1 var(--font-serif), serif; letter-spacing: -.01em; }
 .logoMarkPlain { font: 800 19px/1 var(--font-body), sans-serif; letter-spacing: -.03em; }
 .logoSub { font: 500 10px/1 var(--font-body), sans-serif; letter-spacing: .34em; color: var(--acc); }
+/* .navWrap only wraps the nav so it stays the flex item at desktop; the
+   toggle exists below 900px only. Keep it display:block. */
+.navWrap { display: block; }
+.navToggle { display: none; }
+.hdrActions { display: flex; align-items: center; gap: 10px; }
+/* v1b/v1c used to hold their CTA inside the <nav>, so space-between pushed the
+   pair to the right edge. Pulling the button out added a third header child —
+   this keeps the nav next to it instead of stranded mid-header. */
+.navWrapEnd { margin-left: auto; }
+.hdrPhone { }
 .nav { display: flex; flex-wrap: wrap; align-items: center; gap: 28px; font: 500 13px/1 var(--font-body), sans-serif; }
 .navMono { font: 500 11px/1 var(--font-mono), monospace; letter-spacing: .12em; gap: 26px; }
 .nav a { display: inline-flex; align-items: center; min-height: 32px; }
@@ -286,15 +296,58 @@
 /* responsive ----------------------------------------------------- */
 @media (max-width: 900px) {
   .page { --pad: 20px; }
-  /* header must collapse too, or the nav pushes the document 200–300px wide */
-  .hdr { flex-wrap: wrap; gap: 14px; }
-  .nav { order: 3; width: 100%; gap: 18px; }
+  /* one row: logo left, menu toggle + actions right. The nav drops as a panel
+     so it costs no header height until asked for. */
+  .hdr { position: relative; flex-wrap: nowrap; gap: 10px; padding: 12px var(--pad); }
+  .navWrap { margin-left: auto; }
+  .navWrap:not([data-open]) .nav { display: none; }
+  .navToggle {
+    display: flex;
+    align-items: center;
+    min-height: 40px;
+    padding: 0 12px;
+    font: 600 12.5px/1 var(--font-body), sans-serif;
+    color: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    white-space: nowrap;
+    font-family: inherit;
+  }
+  .navToggle::after { content: '▾'; margin-left: 7px; font-size: 10px; }
+  .navWrap[data-open] .navToggle::after { content: '▴'; }
+  .navWrap[data-open] .nav {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    z-index: 40;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0 !important;
+    padding: 4px var(--pad) 12px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--ruleStrong);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, .12);
+  }
+  /* v2a is the one dark header on a cream page — its panel follows the header */
+  .hdrDark .navWrap[data-open] .nav { background: #1a1714; border-bottom-color: rgba(242,238,232,.2); }
+  .hdrDark .navWrap[data-open] .nav a { border-bottom-color: rgba(242,238,232,.14); }
+  .hdrPhone { display: none; }
+  /* v1c's ARCHITECTS/BUILDS chips do not fit beside the toggle and CTA */
+  .hdrTags { display: none; }
+  .navWrap[data-open] .nav a {
+    min-height: 46px;
+    font-size: 15px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .navWrap[data-open] .nav a:last-child { border-bottom: none; }
   .grid2, .grid3, .grid4, .splitCols, .heroSplit, .heroEditorial, .heroCatalog,
   .heroWarm, .heroProcess, .beforeAfter, .cellGrid, .formGrid, .hairGrid,
   .calc, .stepGrid, .ctaDark, .ctaWarm, .ctaBox, .budgetRow { grid-template-columns: 1fr; gap: 20px; }
   .stats { grid-auto-flow: row; grid-auto-columns: auto; grid-template-columns: 1fr 1fr; }
   .h1, .h1Warm { font-size: 32px; }
-  .h1Serif { font-size: 40px; }
+  .h1Serif { font-size: 34px; }
   .h1Display { font-size: 38px; }
   .h2, .h2Serif { font-size: 24px; }
   .heroSplitText { padding: 40px var(--pad); }
@@ -307,4 +360,32 @@
   .floatStat { left: 16px; }
   .cell, .cellRight { padding: 20px 0; border-left: none; }
   .ganttRow { grid-template-columns: 110px 1fr; }
+
+  /* stacked buttons of different widths read as an accident — match them.
+     The header row opts out so its actions stay inline beside the logo. */
+  .btnRow { flex-direction: column; align-items: stretch; }
+  .hdr .btnRow { flex-direction: row; align-items: center; }
+  .btnRow .btn { width: 100%; text-align: center; white-space: normal; }
+  .hdr .btnRow .btn { width: auto; }
+
+  /* 0.2em tracking on a 10.5px label forces a wrap at this width, and
+     line-height:1 then collides the two lines */
+  .mono { letter-spacing: .13em; line-height: 1.45; text-wrap: balance; }
+
+  /* a 3-stat row leaves one orphan in a 2-col grid — let it span instead */
+  .stats > .stat:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* desktop rhythm is too airy at this width */
+  .section { padding: 40px var(--pad) 0; }
+  .sectionTight { padding: 28px var(--pad) 0; }
+  .page { padding-bottom: 96px; }
+  .bandDark { margin-top: 48px; padding: 40px var(--pad); }
+  .heroEditorial { padding-top: 44px; gap: 28px; }
+  .heroProcess, .heroWarm { padding-top: 32px; }
+  .heroCentered { padding: 40px var(--pad) 32px; }
+  .heroCatalogText { padding: 36px var(--pad) 32px; }
+  .heroSplitText { padding: 36px var(--pad); }
+  .calc { padding: 24px; }
+  .ctaWarm, .ctaBox, .ctaDark { padding: 28px; }
+  .testimonial { padding: 26px; }
 }

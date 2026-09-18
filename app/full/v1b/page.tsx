@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import s from '../full.module.css';
+import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
 
@@ -26,12 +27,15 @@ export default function V1b() {
           <span className={s.logoMarkSerif}>HUB</span>
           <span className={s.logoSub}>REMONTU</span>
         </div>
-        <nav className={s.nav}>
-          {['Проєкти', 'Послуги', 'Студія', 'Ціни', 'Контакти'].map((i) => (
-            <a href="#" key={i}>{i}</a>
-          ))}
+        <NavMenu
+          items={['Проєкти', 'Послуги', 'Студія', 'Ціни', 'Контакти']}
+          navClassName={s.nav}
+          toggleClassName={s.navToggle}
+          wrapClassName={`${s.navWrap} ${s.navWrapEnd}`}
+        />
+        <div className={s.hdrActions}>
           <a href="#" className={`${s.btn} ${s.btnSm} ${s.outlineSolid}`}>Анкета проєкту</a>
-        </nav>
+        </div>
       </header>
 
       <section className={s.heroEditorial}>

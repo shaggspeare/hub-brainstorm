@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import s from '../full.module.css';
+import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
 
@@ -30,13 +31,14 @@ export default function V1a() {
           <span className={s.logoMark}>HUB</span>
           <span className={s.logoSub}>REMONTU</span>
         </div>
-        <nav className={s.nav}>
-          {['Проєкти', 'Послуги', 'Про студію', 'Ціни', 'Контакти'].map((i) => (
-            <a href="#" key={i}>{i}</a>
-          ))}
-        </nav>
+        <NavMenu
+          items={['Проєкти', 'Послуги', 'Про студію', 'Ціни', 'Контакти']}
+          navClassName={s.nav}
+          toggleClassName={s.navToggle}
+          wrapClassName={s.navWrap}
+        />
         <div className={s.btnRow}>
-          <a href="tel:+380683833888" className={`${s.btn} ${s.btnSm} ${s.outline}`}>+38 068 383 38 88</a>
+          <a href="tel:+380683833888" className={`${s.btn} ${s.btnSm} ${s.outline} ${s.hdrPhone}`}>+38 068 383 38 88</a>
           <a href="#" className={`${s.btn} ${s.btnSm} ${s.fill}`}>Анкета проєкту</a>
         </div>
       </header>

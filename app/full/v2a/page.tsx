@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import s from '../full.module.css';
+import NavMenu from '@/components/NavMenu';
 import { photos } from '@/lib/photos';
 import FullVariantSwitcher from '@/components/FullVariantSwitcher';
 
@@ -48,11 +49,13 @@ export default function V2a() {
           <span className={s.logoMark}>HUB</span>
           <span className={s.logoSub} style={{ color: 'var(--accHi)' }}>REMONTU</span>
         </div>
-        <nav className={s.nav} style={{ color: 'rgba(242,238,232,.8)' }}>
-          {['Проєкти', 'Послуги', 'Студія', 'Ціни', 'Контакти'].map((i) => (
-            <a href="#" key={i}>{i}</a>
-          ))}
-        </nav>
+        <NavMenu
+          items={['Проєкти', 'Послуги', 'Студія', 'Ціни', 'Контакти']}
+          navClassName={s.nav}
+          navStyle={{ color: 'rgba(242,238,232,.8)' }}
+          toggleClassName={s.navToggle}
+          wrapClassName={s.navWrap}
+        />
         <a href="#" className={s.btn} style={{ background: 'var(--accHi)', color: '#1a1714', font: '600 12.5px/1 var(--font-body), sans-serif', padding: '11px 18px' }}>
           Анкета проєкту
         </a>
